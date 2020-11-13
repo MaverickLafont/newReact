@@ -13,12 +13,12 @@ lexik_jwt_authentication:
         cookie:
             enabled: true
             name: BEARER
-
+    # TODO : Le secure est sur false car en localhost = http
     set_cookies:
         BEARRER:
             lifetime: null
             samesite: lax
             path: /
             domain: null
-            secure: true
+            secure: false
             httpOnly: true

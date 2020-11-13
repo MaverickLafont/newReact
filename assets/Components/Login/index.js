@@ -2,21 +2,28 @@ import React, {useState} from 'react'
 import {Link} from "react-router-dom";
 import Axios from "axios";
 
-const Login = () => {
+const Login = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        Axios.post('api/login', {username, password}, {headers: {
+        Axios.post('api/login', {username, password}, {
+            withCredentials: true,
+            headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
-                console.log(res)
+                setPassword('');
+                setUsername('');
+                props.history.push('/welcome')
         }).catch(error => {
-            console.log(error)
+            setPassword('');
+            setUsername('');
+            setError(error);
         })
     }
     return(
@@ -26,6 +33,9 @@ const Login = () => {
                 <div className="formBoxRight">
                     <div className="formContent">
                         <form onSubmit={handleSubmit}>
+
+                            {error !== "" && <span>{error.message}</span>}
+
                             <h2>Connexion</h2>
                             <div className="inputBox">
                                 <input onChange={e => setUsername(e.target.value)} value={username} type="email" autoComplete="off" required/>
