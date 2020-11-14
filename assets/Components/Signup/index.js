@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import Axios from "axios";
 import {Link} from "react-router-dom";
 
@@ -28,6 +28,8 @@ const Signup = (props) => {
 
         const { pseudo, email, password } = loginData;
 
+        //On envoie les cookies automatiquement vers l'AP
+        Axios.defaults.withCredentials = true;
         Axios.post('api/users', {pseudo, email, password}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
@@ -37,9 +39,11 @@ const Signup = (props) => {
                         'Accept' : 'application/json',
                         'Content-Type' : 'application/json'
                     }}).then(jwt => {
-
+                    props.history.push('/welcome')
+                }).catch(error => {
+                    setError(error)
+                    setLoginData({...data})
                 })
-                props.history.push('/welcome')
             })
             .catch(error => {
                 setError(error)
