@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import Axios from "axios";
 
@@ -8,21 +8,22 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    /**
+     * Appel sur api login qui verifie l'authenticite de user et renvoie un token dans cookie
+     * @param e
+     */
     const handleSubmit = e => {
         e.preventDefault();
 
-        Axios.post('api/login', {username, password}, {
-            withCredentials: true,
-            headers: {
+        Axios.post('api/login', {username, password}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
-                setPassword('');
-                setUsername('');
-                props.history.push('/welcome')
+                // setPassword('');
+                // setUsername('');
+            localStorage.setItem('token', res.data.token)
+            props.history.push('/welcome')
         }).catch(error => {
-            setPassword('');
-            setUsername('');
             setError(error);
         })
     }
@@ -50,6 +51,8 @@ const Login = (props) => {
                         </form>
                         <div className="linkContainerk">
                             <Link className="simpleLink" to={'/signup'}>Nouveau sur Marvel Quiz ? Inscrivez-vous ici.</Link>
+                            <br/>
+                            <Link className="simpleLink" to={'/forgetpassword'}>Mot de passe oublié ?</Link>
                         </div>
                     </div>
                 </div>
