@@ -3,22 +3,3 @@ lexik_jwt_authentication:
     public_key:  '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     token_ttl :   3600
-
-    # On desactive le token classique et on remplace par un cookie http only
-    token_extractors:
-        authorization_header:
-            enabled: false
-            prefix: Bearer
-            name: Authorization
-        cookie:
-            enabled: true
-            name: BEARER
-    # TODO : Le secure est sur false car en localhost = http
-    set_cookies:
-        BEARRER:
-            lifetime: null
-            samesite: lax
-            path: /
-            domain: null
-            secure: false
-            httpOnly: true
