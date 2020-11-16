@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import Axios from "axios";
+import AxiosConfig from "../../AxiosConfig";
 
 const Login = (props) => {
 
@@ -15,7 +15,7 @@ const Login = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        Axios.post('api/login', {username, password}, {headers: {
+        AxiosConfig.post('api/login', {username, password}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
@@ -25,7 +25,7 @@ const Login = (props) => {
             props.history.push('/welcome')
         }).catch(error => {
             setError(error);
-        })
+        })se
     }
     return(
         <div className="signUpLoginBox">

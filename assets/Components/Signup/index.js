@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Axios from "axios";
+import AxiosConfig from "../../AxiosConfig";
 import {Link} from "react-router-dom";
 
 const Signup = (props) => {
@@ -29,13 +29,13 @@ const Signup = (props) => {
         const { pseudo, email, password } = loginData;
 
         //On envoie les cookies automatiquement vers l'AP
-        Axios.defaults.withCredentials = true;
-        Axios.post('api/users', {pseudo, email, password}, {headers: {
+        AxiosConfig.defaults.withCredentials = true;
+        AxiosConfig.post('api/users', {pseudo, email, password}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
                 setLoginData({...data})
-                Axios.post('api/login', {email, password}, {headers: {
+                AxiosConfig.post('api/login', {email, password}, {headers: {
                         'Accept' : 'application/json',
                         'Content-Type' : 'application/json'
                     }}).then(jwt => {
