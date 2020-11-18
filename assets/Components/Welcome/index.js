@@ -1,26 +1,17 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import Logout from "../Logout";
 import Quiz from "../Quiz";
-
+import AuthService from "../../Services/auth.service"
 const Welcome = (props) => {
 
-    const [users, setUsers] = useState(false);
-
-    useEffect(() => {
-        localStorage.getItem('token') !== null ? setUsers(true) : props.history.push('/')
-    })
-    return users === true ? (
+    return (
         <div className="quiz-bg">
             <div className="container">
                 <Logout/>
                 <Quiz/>
+                {AuthService.getCurrentUser()}
             </div>
         </div>
-    ) : (
-        <Fragment>
-            <div className="loader"></div>
-            <p>Chargement ...</p>
-        </Fragment>
     )
 }
 

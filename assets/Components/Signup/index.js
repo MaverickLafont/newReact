@@ -28,17 +28,16 @@ const Signup = (props) => {
 
         const { pseudo, email, password } = loginData;
 
-        //On envoie les cookies automatiquement vers l'AP
-        AxiosConfig.defaults.withCredentials = true;
-        AxiosConfig.post('api/users', {pseudo, email, password}, {headers: {
+        AxiosConfig.post('api/users', {email,password, pseudo}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
                 setLoginData({...data})
-                AxiosConfig.post('api/login', {email, password}, {headers: {
+                AxiosConfig.post('api/login', {"username" : email, password}, {headers: {
                         'Accept' : 'application/json',
                         'Content-Type' : 'application/json'
-                    }}).then(jwt => {
+                    }}).then(res => {
+                    localStorage.setItem('token', res.data.token)
                     props.history.push('/welcome')
                 }).catch(error => {
                     setError(error)

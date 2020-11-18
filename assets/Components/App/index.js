@@ -8,6 +8,7 @@ import Welcome from "../Welcome";
 import Login from "../Login";
 import Signup from "../Signup";
 import ErrorPage from "../ErrorPage";
+import {ProtectedRoute} from "../Route/protected.route";
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={Landing} />
-                <Route path="/welcome" component={Welcome} />
+                <ProtectedRoute path="/welcome" component={Welcome} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route component={ErrorPage} />

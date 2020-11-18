@@ -4,7 +4,7 @@ import AxiosConfig from "../../AxiosConfig";
 
 const Login = (props) => {
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -15,17 +15,17 @@ const Login = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        AxiosConfig.post('api/login', {username, password}, {headers: {
+        AxiosConfig.post('api/login', {"username" : email, password}, {headers: {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }}).then(res => {
                 // setPassword('');
-                // setUsername('');
+                // setEmail('');
             localStorage.setItem('token', res.data.token)
             props.history.push('/welcome')
         }).catch(error => {
             setError(error);
-        })se
+        })
     }
     return(
         <div className="signUpLoginBox">
@@ -39,7 +39,7 @@ const Login = (props) => {
 
                             <h2>Connexion</h2>
                             <div className="inputBox">
-                                <input onChange={e => setUsername(e.target.value)} value={username} type="email" autoComplete="off" required/>
+                                <input onChange={e => setEmail(e.target.value)} value={email} type="email" autoComplete="off" required/>
                                 <label htmlFor="pseudo">Email</label>
                             </div>
 

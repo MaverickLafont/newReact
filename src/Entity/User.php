@@ -55,7 +55,9 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Groups("user:write")
+     *
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $pseudo;
 

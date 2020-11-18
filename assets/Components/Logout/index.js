@@ -5,7 +5,10 @@ const Logout = () => {
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
-        checked && localStorage.clear();
+        if(checked){
+            checked && localStorage.clear();
+            location.reload();
+        }
     },  [checked]);
 
     const handleChange = e => {
