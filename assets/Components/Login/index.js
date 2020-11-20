@@ -27,6 +27,12 @@ const Login = (props) => {
             setError(error);
         })
     }
+
+   const handleForgetPassword = () => {
+       props.history.push(`api/reset-password`);
+       window.location.reload();
+    }
+
     return(
         <div className="signUpLoginBox">
             <div className="slContainer">
@@ -52,7 +58,7 @@ const Login = (props) => {
                         <div className="linkContainerk">
                             <Link className="simpleLink" to={'/signup'}>Nouveau sur Marvel Quiz ? Inscrivez-vous ici.</Link>
                             <br/>
-                            <Link className="simpleLink" to={'/forgetpassword'}>Mot de passe oublié ?</Link>
+                            <a className="simpleLink" onClick={handleForgetPassword}>Mot de passe oublié ?</a>
                         </div>
                     </div>
                 </div>
