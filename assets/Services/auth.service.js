@@ -1,7 +1,7 @@
 import React from 'react';
 import jwtDecode from "jwt-decode";
 
-const token = localStorage.getItem("token");
+
 /**
  * Verifie si l'utilisateur est authentifié
  *
@@ -9,6 +9,7 @@ const token = localStorage.getItem("token");
  * @returns {boolean}
  */
 const checkAuth = () => {
+    let token = localStorage.getItem("token");
     if(!token){
         return false;
     }
@@ -26,9 +27,9 @@ const checkAuth = () => {
 }
 
 const getCurrentUser = () => {
+    const token = localStorage.getItem("token");
     if (checkAuth()){
-        const { username } = jwtDecode(token);
-        return username;
+        return jwtDecode(token);
     }
     return null;
 };
