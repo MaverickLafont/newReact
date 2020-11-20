@@ -55,7 +55,7 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @Groups("user:write")
+     * @Groups({"user:read", "user:write"})
      *
      * @ORM\Column(type="string", length=255, unique=true)
      */
