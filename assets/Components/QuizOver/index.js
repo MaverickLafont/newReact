@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {GiTrophyCup} from "react-icons/gi";
+import Loader from "../Loader";
 
 const QuizOver = React.forwardRef((props, ref) => {
 
@@ -10,7 +11,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
     useEffect(() => {
         setQuestion(ref.current)
-    }, [ref])
+    }, [ref]);
 
     /**
      * Si score plus petit que la moyenne on redirige accueil
@@ -19,6 +20,9 @@ const QuizOver = React.forwardRef((props, ref) => {
         setTimeout(() => loadLevelQuestions(quizLevel), 3000);
     }
 
+    /**
+     * En fonction du score obtenu l'affichage du quizOver sera différent
+     */
     const decision = score >= averageGrade ? (
         <Fragment>
             <div className="stepsBtnContainer">
@@ -75,10 +79,10 @@ const QuizOver = React.forwardRef((props, ref) => {
         (
             <tr>
                 <td colSpan="3">
-                    <div className="loader"></div>
-                    <p style={{textAlign: 'center', color: 'red'}}>
-                        Pas de réponse!
-                    </p>
+                    <Loader
+                        loadingMsg={"Pas de réponse!"}
+                        styling={{textAlign: 'center', color: 'red'}}
+                    />
                 </td>
             </tr>
         )
