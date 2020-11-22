@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import ReactTooltip from "react-tooltip";
 
 const Logout = () => {
 
@@ -19,8 +20,9 @@ const Logout = () => {
         <div className="logoutContainer">
             <label className="switch">
                 <input type="checkbox" checked={checked} onChange={handleChange}/>
-                <span className="slider round"></span>
+                <span data-tip="Déconnexion" className="slider round"></span>
             </label>
+            <ReactTooltip place="left" effect="solid"/>
         </div>
     )
 }
