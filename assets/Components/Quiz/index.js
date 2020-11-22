@@ -9,6 +9,24 @@ import {FaChevronRight} from 'react-icons/fa'
 
 toast.configure();
 
+const initial = {
+    quizLevel: 0,
+    maxQuestion: 10,
+    storedQuestions: [],
+    question: null,
+    options: [],
+    idQuestion: 0,
+    btnDisabled: true,
+    userAnswer: null,
+    score: 0,
+    showWelcomeMsg: false,
+    quizEnd : false,
+    btnNextName: 'Suivant',
+    percent: null
+}
+
+const levelNames = ["debutant", "confirme", "expert"];
+
 /**
  * Chargement des states :
  *
@@ -30,25 +48,7 @@ toast.configure();
 class Quiz extends Component{
     constructor(props) {
         super(props);
-
-        this.initial = {
-            levelNames: ["debutant", "confirme", "expert"],
-            quizLevel: 0,
-            maxQuestion: 10,
-            storedQuestions: [],
-            question: null,
-            options: [],
-            idQuestion: 0,
-            btnDisabled: true,
-            userAnswer: null,
-            score: 0,
-            showWelcomeMsg: false,
-            quizEnd : false,
-            btnNextName: 'Suivant',
-            percent: null
-        }
-
-        this.state = this.initial;
+        this.state = initial;
         this.storedDataRef = React.createRef();
     }
 
@@ -65,11 +65,7 @@ class Quiz extends Component{
             this.storedDataRef.current = fetchedArrayQuiz;
             const newArray = fetchedArrayQuiz.map(({ answer, ...keepRest}) => keepRest);
 
-            this.setState({
-                storedQuestions: newArray
-            })
-        } else {
-            console.log("Pas assez de question");
+            this.setState({storedQuestions: newArray})
         }
     }
 
@@ -81,9 +77,7 @@ class Quiz extends Component{
     showToastMsg = pseudo => {
         if(!this.state.showWelcomeMsg){
             //On passe le state en true pour ne plus afficher le message welcome
-            this.setState({
-                showWelcomeMsg: true
-            })
+            this.setState({showWelcomeMsg: true})
 
             toast.warn(`Bienvenu ${pseudo}, et bonne chance !`, {
                 position: "top-right",
@@ -101,7 +95,7 @@ class Quiz extends Component{
      * Seulement après montage du dom on charge les questions
      */
     componentDidMount(){
-        this.loadQuestions(this.state.levelNames[this.state.quizLevel])
+        this.loadQuestions(levelNames[this.state.quizLevel])
     }
 
     /**
@@ -112,24 +106,31 @@ class Quiz extends Component{
      * @param prevState
      */
     componentDidUpdate(prevProps, prevState){
-        if((this.state.storedQuestions !== prevState.storedQuestions) && this.state.storedQuestions.length){
+        const {maxQuestion,
+            storedQuestions,
+            idQuestion,
+            score,
+            quizEnd
+        } = this.state;
+
+        if((storedQuestions !== prevState.storedQuestions) && storedQuestions.length){
             this.setState({
-                question: this.state.storedQuestions[this.state.idQuestion].question,
-                options: this.state.storedQuestions[this.state.idQuestion].options
+                question: storedQuestions[idQuestion].question,
+                options: storedQuestions[idQuestion].options
             })
         }
-        if((this.state.idQuestion !== prevState.idQuestion) && this.state.storedQuestions.length){
+        if((idQuestion !== prevState.idQuestion) && storedQuestions.length){
             this.setState({
-                question: this.state.storedQuestions[this.state.idQuestion].question,
-                options: this.state.storedQuestions[this.state.idQuestion].options,
+                question: storedQuestions[idQuestion].question,
+                options: storedQuestions[idQuestion].options,
                 userAnswer: null,
                 btnDisabled: true
             })
         }
 
-        if(this.state.quizEnd !== prevState.quizEnd){
+        if(quizEnd !== prevState.quizEnd){
             // Retourne le score en pourcentage
-            const gradePercent = (this.state.score / this.state.maxQuestion) * 100;
+            const gradePercent = (score / maxQuestion) * 100;
             this.gameOver(gradePercent);
         }
 
@@ -159,19 +160,13 @@ class Quiz extends Component{
         //fin du quiz (apres avoir clicker sur terminer)
         if(this.state.idQuestion === this.state.maxQuestion - 1){
             // on indique qu'on est a la fin du quiz pour passer dans le componentDidUpdate
-            this.setState({
-                quizEnd: true
-            })
+            this.setState({quizEnd: true})
         } else {
-            this.setState(prevState => ({
-                idQuestion: prevState.idQuestion + 1
-            }))
+            this.setState(prevState => ({ idQuestion: prevState.idQuestion + 1 }))
         }
 
         if( this.state.userAnswer === this.storedDataRef.current[this.state.idQuestion].answer){
-            this.setState(prevState => ({
-                score: prevState.score + 1
-            }))
+            this.setState(prevState => ({ score: prevState.score + 1 }))
             toast.success('Bravo ! +1', {
                 position: "top-right",
                 autoClose: 3000,
@@ -207,9 +202,7 @@ class Quiz extends Component{
                 percent
             }))
         } else {
-            this.setState({
-                percent
-            })
+            this.setState({ percent })
         }
     }
 
@@ -232,43 +225,55 @@ class Quiz extends Component{
     loadLevelQuestions = param => {
         this.setState({...this.initial, quizLevel: param})
 
-        this.loadQuestions(this.state.levelNames[param]);
+        this.loadQuestions(levelNames[param]);
     }
 
     render() {
-        const displayOptions = this.state.options.map((option, index) => {
+        const {quizLevel,
+            maxQuestion,
+            question,
+            options,
+            idQuestion,
+            btnDisabled,
+            userAnswer,
+            score,
+            quizEnd,
+            percent
+        } = this.state;
+
+        const displayOptions = options.map((option, index) => {
             return (
                 <p key={index}
                    onClick={() => this.submitAnswer(option)}
-                   className={`answerOptions ${this.state.userAnswer === option ? 'selected' : null}`}>
+                   className={`answerOptions ${userAnswer === option ? 'selected' : null}`}>
                     <FaChevronRight /> {option}
                 </p>
 
             )
         })
 
-        return this.state.quizEnd ? (
+        return quizEnd ? (
             <QuizOver ref={this.storedDataRef}
-                      levelNames={this.state.levelNames}
-                      score={this.state.score}
-                      maxQuestions={this.state.maxQuestion}
-                      quizLevel={this.state.quizLevel}
-                      percent={this.state.percent}
+                      levelNames={levelNames}
+                      score={score}
+                      maxQuestions={maxQuestion}
+                      quizLevel={quizLevel}
+                      percent={percent}
                       loadLevelQuestions={this.loadLevelQuestions}
             />
         ) : (
             <Fragment>
                 <Levels
-                    levelsName={this.state.levelNames}
-                    quizLevel={this.state.quizLevel}
+                    levelsName={levelNames}
+                    quizLevel={quizLevel}
                 />
                 <ProgressBar
-                    idQuestion={this.state.idQuestion}
-                    maxQuestion={this.state.maxQuestion}
+                    idQuestion={idQuestion}
+                    maxQuestion={maxQuestion}
                 />
-                <h2>{this.state.question}</h2>
+                <h2>{question}</h2>
                 {displayOptions}
-                <button className="btnSubmit" disabled={this.state.btnDisabled} onClick={() => this.nextQuestion()}>{this.btnNextName()}</button>
+                <button className="btnSubmit" disabled={btnDisabled} onClick={() => this.nextQuestion()}>{this.btnNextName()}</button>
             </Fragment>
         )
 
