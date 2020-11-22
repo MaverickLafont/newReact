@@ -1,17 +1,23 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {GiTrophyCup} from "react-icons/gi";
 import Loader from "../Loader";
+import Modal from "./modal";
 
 const QuizOver = React.forwardRef((props, ref) => {
 
     const {levelNames, score, maxQuestions, quizLevel, percent, loadLevelQuestions} = props;
     const [question, setQuestion] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
     //Retourne la moyenne
     const averageGrade = maxQuestions / 2;
 
     useEffect(() => {
         setQuestion(ref.current)
     }, [ref]);
+
+    const showMoadl = id => {
+        setOpenModal(true);
+    }
 
     /**
      * Si score plus petit que la moyenne on redirige accueil
@@ -70,7 +76,7 @@ const QuizOver = React.forwardRef((props, ref) => {
                     <td>{question.question}</td>
                     <td>{question.answer}</td>
                     <td>
-                        <button className="btnInfo">INFOS</button>
+                        <button onClick={() => showModal(question.heroId)} className="btnInfo">INFOS</button>
                     </td>
                 </tr>
             )
@@ -108,6 +114,9 @@ const QuizOver = React.forwardRef((props, ref) => {
                     </tbody>
                 </table>
             </div>
+            <Modal showModal={openModal}>
+
+            </Modal>
         </Fragment>
     )
 })
