@@ -134,6 +134,7 @@ class Quiz extends Component{
             this.gameOver(gradePercent);
         }
 
+        //TODO ça affiche pas le message bijour
         if(this.props.user.pseudo !== prevProps.user.pseudo){
             this.showToastMsg(this.props.user.pseudo)
         }
@@ -223,7 +224,7 @@ class Quiz extends Component{
      * @param param
      */
     loadLevelQuestions = param => {
-        this.setState({...this.initial, quizLevel: param})
+        this.setState({...initial, quizLevel: param})
 
         this.loadQuestions(levelNames[param]);
     }

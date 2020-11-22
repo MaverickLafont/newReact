@@ -1,10 +1,14 @@
 import React from 'react'
 
-const Modal = ({ showModal }) => {
+const Modal = ({ showModal, children, closeModal }) => {
     return(
-        <div>
-
-        </div>
+        showModal && (
+            <div className="modalBackground" onClick={closeModal}>
+                <div className="modalContainer">
+                    { children }
+                </div>
+            </div>
+        )
     )
 }
 export default Modal

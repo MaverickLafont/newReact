@@ -11,12 +11,29 @@ const QuizOver = React.forwardRef((props, ref) => {
     //Retourne la moyenne
     const averageGrade = maxQuestions / 2;
 
+    const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY;
+
+    console.log(API_PUBLIC_KEY);
+
+    const hash = '45ac438bbbf9a9fa4e9bcd08503b5594';
+
     useEffect(() => {
         setQuestion(ref.current)
     }, [ref]);
 
-    const showMoadl = id => {
+    /**
+     * Affiche la modal avec les infos
+     * @param id
+     */
+    const showModal = id => {
         setOpenModal(true);
+    }
+
+    /**
+     * Ferme la modal
+     */
+    const closeModal = () => {
+        setOpenModal(false);
     }
 
     /**
@@ -114,8 +131,16 @@ const QuizOver = React.forwardRef((props, ref) => {
                     </tbody>
                 </table>
             </div>
-            <Modal showModal={openModal}>
-
+            <Modal showModal={openModal} closeModal={closeModal}>
+                <div className="modalHeader">
+                    <h2>Titre</h2>
+                </div>
+                <div className="modalBody">
+                    <h3>Titre 2</h3>
+                </div>
+                <div className="modalFooter">
+                    <button className="modalBtn">Fermer</button>
+                </div>
             </Modal>
         </Fragment>
     )
