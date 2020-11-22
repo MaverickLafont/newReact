@@ -468,7 +468,7 @@ input:checked+.slider:before {
 /* LEVELS */
 .levelsContainer {
     display: flex;
-    background-color: var(--light-grey-color);
+    background-color: transparent;
     padding: 20px;
     margin-bottom: 40px;
 }
