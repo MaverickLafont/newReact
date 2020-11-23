@@ -26,6 +26,10 @@ const checkAuth = () => {
     return true
 }
 
+/**
+ * Retourne l'utilisateur courent
+ * @returns {null|unknown}
+ */
 const getCurrentUser = () => {
     const token = localStorage.getItem("token");
     if (checkAuth()){
