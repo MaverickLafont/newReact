@@ -81,7 +81,7 @@ class Quiz extends Component{
 
             toast.warn(`Bienvenu ${pseudo}, et bonne chance !`, {
                 position: "top-right",
-                autoClose: 3000,
+                autoClose: 6000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -135,7 +135,7 @@ class Quiz extends Component{
         }
 
         //TODO ça affiche pas le message bijour
-        if(this.props.user.pseudo !== prevProps.user.pseudo){
+        if(this.props.user.pseudo){
             this.showToastMsg(this.props.user.pseudo)
         }
     }
