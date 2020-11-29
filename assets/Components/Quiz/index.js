@@ -277,8 +277,6 @@ class Quiz extends Component{
                 <button className="btnSubmit" disabled={btnDisabled} onClick={() => this.nextQuestion()}>{this.btnNextName()}</button>
             </Fragment>
         )
-
-
     }
 }
 export default Quiz
