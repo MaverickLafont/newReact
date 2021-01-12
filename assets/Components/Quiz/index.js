@@ -79,7 +79,7 @@ class Quiz extends Component{
             //On passe le state en true pour ne plus afficher le message welcome
             this.setState({showWelcomeMsg: true})
 
-            toast.warn(`Bienvenu ${pseudo}, et bonne chance !`, {
+            toast.warn(`Bienvenue ${pseudo}, et bonne chance !`, {
                 position: "top-right",
                 autoClose: 6000,
                 hideProgressBar: false,
